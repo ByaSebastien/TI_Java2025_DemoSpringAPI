@@ -27,7 +27,6 @@ public class CommentController {
             @AuthenticationPrincipal User user,
             UriComponentsBuilder uriBuilder
     ) {
-        //Todo Gestion d'exception cleaner BindingResult
         Comment comment = form.toComment();
         comment.setUser(user);
         Long id = commentService.addComment(postId, comment).getId();

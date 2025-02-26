@@ -54,7 +54,6 @@ public class PostController {
             @Valid @RequestBody PostForm form,
             @AuthenticationPrincipal User user
     ) {
-        //Todo Gestion d'exception cleaner BindingResult
         Post post = form.toPost();
         post.setOwner(user);
         Long id = postService.save(post).getId();

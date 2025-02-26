@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,11 +27,10 @@ public class AuthController {
     @PreAuthorize("isAnonymous()")
     @PostMapping("/register")
     public ResponseEntity<Void> register(
-            @Valid @RequestBody RegisterForm form
+            @Valid @RequestPart("form") RegisterForm form,
+            @RequestPart("image") MultipartFile image
             ) {
-        //Todo Handle image
-        //Todo Gestion d'exception cleaner BindingResult
-        authService.register(form.toUser());
+        authService.register(form.toUser(),image);
         return ResponseEntity.noContent().build();
     }
 
@@ -38,7 +39,6 @@ public class AuthController {
     public ResponseEntity<UserTokenDTO> login(
             @Valid @RequestBody LoginForm form
     ) {
-        //Todo Gestion d'exception cleaner BindingResult
         User user = authService.login(form.email(), form.password());
         UserSessionDTO userDTO = UserSessionDTO.fromUser(user);
         String token = jwtUtil.generateToken(user);
