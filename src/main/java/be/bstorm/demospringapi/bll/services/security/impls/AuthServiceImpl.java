@@ -26,6 +26,7 @@ public class AuthServiceImpl implements AuthService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole(UserRole.USER);
+        //Todo Handle image
         userRepository.save(user);
     }
 

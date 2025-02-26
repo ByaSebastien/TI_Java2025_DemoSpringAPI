@@ -47,7 +47,7 @@ public class User extends BaseEntity<Long> implements UserDetails {
     @Setter
     private String image;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private final Set<User> friends;
 
     public User() {

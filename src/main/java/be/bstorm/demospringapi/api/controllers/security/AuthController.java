@@ -1,6 +1,6 @@
 package be.bstorm.demospringapi.api.controllers.security;
 
-import be.bstorm.demospringapi.api.models.security.dtos.UserDTO;
+import be.bstorm.demospringapi.api.models.security.dtos.UserSessionDTO;
 import be.bstorm.demospringapi.api.models.security.dtos.UserTokenDTO;
 import be.bstorm.demospringapi.api.models.security.forms.LoginForm;
 import be.bstorm.demospringapi.api.models.security.forms.RegisterForm;
@@ -27,6 +27,7 @@ public class AuthController {
     public ResponseEntity<Void> register(
             @Valid @RequestBody RegisterForm form
             ) {
+        //Todo Handle image
         //Todo Gestion d'exception cleaner BindingResult
         authService.register(form.toUser());
         return ResponseEntity.noContent().build();
@@ -39,7 +40,7 @@ public class AuthController {
     ) {
         //Todo Gestion d'exception cleaner BindingResult
         User user = authService.login(form.email(), form.password());
-        UserDTO userDTO = UserDTO.fromUser(user);
+        UserSessionDTO userDTO = UserSessionDTO.fromUser(user);
         String token = jwtUtil.generateToken(user);
         UserTokenDTO userTokenDTO = new UserTokenDTO(userDTO, token);
         return ResponseEntity.ok(userTokenDTO);
